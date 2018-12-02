@@ -27,5 +27,5 @@ create-ttvec -f ttvec.bin -d 3 -m 15,12,8 -r 4,2
 After having craeted a TT-matrix and a TT-vector in a file (say "mata.bin" and "vecx.bin"), you can run the skeleton code that computes the matrix-vector multiplication and saves it in the file "vecy.bin" as follows
 
 ```
-./ttmatvec -a mata.bin -x vecx.bin -y vecy.bin
+ttmatvec -a mata.bin -x vecx.bin -y vecy.bin
 ```
