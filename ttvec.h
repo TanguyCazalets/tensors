@@ -17,6 +17,8 @@ void saveTTVec(
     char *fileName,
     TTVec *vec);
 
+void destroyTTVec(TTVec *vec);
+
 void printTTVec(
     TTVec *vec,
     FILE *outFile);

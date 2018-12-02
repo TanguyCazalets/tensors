@@ -28,6 +28,15 @@ void loadTTMat(
   fclose(file);
 }
 
+void destroyTTMat(TTMat *mat)
+{
+  free(mat->m);
+  free(mat->n);
+  free(mat->r);
+  free(mat->dimMatBegin);
+  free(mat->data);
+}
+
 void printTTMat(
     TTMat *mat,
     FILE *outFile)

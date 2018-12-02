@@ -15,6 +15,8 @@ void loadTTMat(
     char *fileName,
     TTMat *mat);
 
+void destroyTTMat(TTMat *mat);
+
 void printTTMat(
     TTMat *mat,
     FILE *outFile);

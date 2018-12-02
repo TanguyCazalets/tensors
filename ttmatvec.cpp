@@ -2,6 +2,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <ctime>
+#include <chrono>
 #include "ttmat.h"
 #include "ttvec.h"
 
@@ -62,14 +63,18 @@ int main(int argc, char **argv)
     exit(1);
   }
   loadTTMat(AFileName, &A);
-  printTTMat(&A, stdout);
+//  printTTMat(&A, stdout);
   loadTTVec(XFileName, &x);
-  printTTVec(&x, stdout);
+//  printTTVec(&x, stdout);
+  std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
   multiplyTTMatVec(&A, &x, &y);
-  printTTVec(&y, stdout);
+  std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+  printf("TTMatVec took %e seconds.\n", time_span.count());
+//  printTTVec(&y, stdout);
   saveTTVec(YFileName, &y);
-//  destroyTTVec(&x);
-//  destroyTTVec(&y);
-//  destroyTTMat(&A);
+  destroyTTVec(&x);
+  destroyTTVec(&y);
+  destroyTTMat(&A);
   return 0;
 }

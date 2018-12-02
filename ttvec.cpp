@@ -40,6 +40,14 @@ void saveTTVec(
   fclose(file);
 }
 
+void destroyTTVec(TTVec *vec)
+{
+  free(vec->m);
+  free(vec->r);
+  free(vec->dimVecBegin);
+  free(vec->data);
+}
+
 void printTTVec(
     TTVec *vec,
     FILE *outFile)
@@ -94,7 +102,7 @@ int compareTTVec(
     normY += y->data[i] * y->data[i];
   }
   double maxNorm = fabs(normX) > fabs(normY) ? fabs(normX) : fabs(normY);
-  printf("error %e\n", sqError);
+//  printf("error %e\n", sqError);
   if (maxNorm < 1e-6) { return (sqError < 1e-12); }
   else { return (sqError / maxNorm < 1e-6); }
 }

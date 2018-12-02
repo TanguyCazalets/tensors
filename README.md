@@ -1,6 +1,6 @@
 # matvev
 
-Matrice vector product for tensor train tensor
+Matrice vector product in tensor-train format
 
 ## Instructions:
 
@@ -29,6 +29,8 @@ After having craeted a TT-matrix and a TT-vector in a file (say "mata.bin" and "
 ```
 ./ttmatvec -a mata.bin -x vecx.bin -y vecy.bin
 ```
+Note that this around, the number of columns of the TT-matrix in each dimension (specified after -n above) must
+correspond to number of rows of the corresponding dimension of the TT-vector to be multiplied with (specified after -m).
 
 ### Comparing the resulting ttvec
 Once your code creates the matvec result in a file (say "vecy.bin"), you need to compare it with the result of the

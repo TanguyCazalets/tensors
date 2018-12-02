@@ -48,8 +48,7 @@ int main(int argc, char **argv)
   } else {
     printf("NOT EQUAL\n");
   }
-//  destroyTTVec(&x);
-//  destroyTTVec(&y);
-//  destroyTTMat(&A);
+  destroyTTVec(&x);
+  destroyTTVec(&y);
   return 0;
 }
