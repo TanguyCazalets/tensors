@@ -67,7 +67,7 @@ int main(int argc, char **argv)
   printTTVec(&x, stdout);
   multiplyTTMatVec(&A, &x, &y);
   printTTVec(&y, stdout);
-//  saveTTVec(YFileName, &y);
+  saveTTVec(YFileName, &y);
 //  destroyTTVec(&x);
 //  destroyTTVec(&y);
 //  destroyTTMat(&A);
