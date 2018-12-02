@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstddef>
+#include <cmath>
 #include "ttvec.h"
 
 
@@ -70,4 +71,30 @@ double *getTTVecBlock(
     int rowIdx)
 {
   return vec->data + vec->dimVecBegin[dim] + ((size_t)rowIdx * vec->r[dim] * vec->r[dim + 1]);
+}
+
+int compareTTVec(
+    TTVec *x,
+    TTVec *y)
+{
+  if (x->d != y->d) { return 0; }
+  for (int d = 0; d < x->d; d++) {
+    if (x->m[d] != y->m[d]) { return 0; }
+    if (x->r[d] != y->r[d]) { return 0; }
+    if (x->dimVecBegin[d] != y->dimVecBegin[d]) { return 0; }
+  }
+  if (x->dimVecBegin[x->d] != y->dimVecBegin[y->d]) { return 0; }
+  double sqError = 0.0;
+  double normX = 0.0;
+  double normY = 0.0;
+  for (size_t i = 0, ie = x->dimVecBegin[x->d]; i < ie; i++) { 
+    double diff = x->data[i] - y->data[i];
+    sqError += diff * diff;
+    normX += x->data[i] * x->data[i];
+    normY += y->data[i] * y->data[i];
+  }
+  double maxNorm = fabs(normX) > fabs(normY) ? fabs(normX) : fabs(normY);
+  printf("error %e\n", sqError);
+  if (maxNorm < 1e-6) { return (sqError < 1e-12); }
+  else { return (sqError / maxNorm < 1e-6); }
 }

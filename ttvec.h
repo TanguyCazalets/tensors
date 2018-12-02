@@ -26,4 +26,8 @@ double *getTTVecBlock(
     int dim,
     int rowIdx);
 
+int compareTTVec(
+    TTVec *x,
+    TTVec *y);
+
 #endif
