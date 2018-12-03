@@ -11,20 +11,21 @@ void loadTTMat(
   FILE *file = fopen(fileName, "rb");
   if (!file) { printf("ERROR: Unable to open the file %s.\n", fileName); exit(1); }
   fread(&(mat->d), sizeof(mat->d), 1, file);
-  mat->m = (int *)malloc(mat->d * sizeof(mat->m[0]));
+  mat->m = (int *)malloc(mat->d * sizeof(mat->m[0])); // Number of matrix rows in each dimension
   fread(mat->m, sizeof(mat->m[0]), mat->d, file);
-  mat->n = (int *)malloc(mat->d * sizeof(mat->n[0]));
+  mat->n = (int *)malloc(mat->d * sizeof(mat->n[0])); // Number of matrix columns in each dimension
   fread(mat->n, sizeof(mat->n[0]), mat->d, file);
   mat->r = (int *)malloc((mat->d + 1) * sizeof(mat->r[0]));
   mat->r[0] = mat->r[mat->d] = 1; // The first and the last ranks are always one.
-  fread(mat->r + 1, sizeof(mat->r[0]), mat->d - 1, file);
-  mat->dimMatBegin = (size_t *)malloc((mat->d + 1) * sizeof(mat->dimMatBegin[0]));
+  fread(mat->r + 1, sizeof(mat->r[0]), mat->d - 1, file); // Read the remaining D - 1 ranks
+  mat->dimMatBegin = (size_t *)malloc((mat->d + 1) * sizeof(mat->dimMatBegin[0])); 
   mat->dimMatBegin[0] = 0;
-  for (int d = 0; d < mat->d; d++) {
+  for (int d = 0; d < mat->d; d++) { // Setup pointers for the beginning of data for the matrix of each dimension
+    // Each dimension has a matrix of size m[d] x n[d], each element of this matrix is of size r[d] x r[d + 1].
     mat->dimMatBegin[d + 1] = mat->dimMatBegin[d] + mat->m[d] * mat->n[d] * mat->r[d] * mat->r[d + 1];
   }
-  mat->data = (double *)malloc(mat->dimMatBegin[mat->d] * sizeof(mat->data[0]));
-  fread(mat->data, sizeof(mat->data[0]), mat->dimMatBegin[mat->d], file);
+  mat->data = (double *)malloc(mat->dimMatBegin[mat->d] * sizeof(mat->data[0])); // Allocate all matrices
+  fread(mat->data, sizeof(mat->data[0]), mat->dimMatBegin[mat->d], file); // Read the input
   fclose(file);
 }
 
