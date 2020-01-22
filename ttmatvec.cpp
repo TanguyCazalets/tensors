@@ -70,7 +70,15 @@ int main(int argc, char **argv)
   multiplyTTMatVec(&A, &x, &y);
   std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-  printf("TTMatVec took %e seconds.\n", time_span.count());
+  printf("%es, ", time_span.count());
+
+  double flops = 0;
+  for (int i = 0; i < y.d; i++) {
+    printf("%d, %d, %d, %d, %d, %d\n", A.m[i] , A.n[i] , A.r[i] , A.r[i + 1] , x.r[i] , x.r[i + 1]);
+    flops += A.m[i] * A.n[i] * A.r[i] * A.r[i + 1] * x.r[i] * x.r[i + 1] * 2;
+  }  
+  flops /= 1e9;
+  printf("%egflops/s\n", flops/time_span.count());
 //  printTTVec(&y, stdout);
   saveTTVec(YFileName, &y);
   destroyTTVec(&x);

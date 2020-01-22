@@ -75,28 +75,6 @@ double *getTTMatBlock(
         mat->r[dim + 1]));
 }
 
-// void multiplyAddKronecker(
-//     double *a,
-//     int anrows,
-//     int ancols,
-//     double *b,
-//     int bnrows,
-//     int bncols,
-//     double *c)
-// {
-//   for (int ja = 0; ja < ancols; ja++) {
-//     for (int ia = 0; ia < anrows; ia++) {
-//       double aelem = a[ia + ja * anrows];
-//       for (int jb = 0; jb < bncols; jb++) {
-//         for (int ib = 0; ib < bnrows; ib++) {
-//           double belem = b[ib + jb * bnrows];
-//           size_t cElemIdx = (ia + ja * anrows) * (size_t)(bnrows * bncols) + ib + jb * (size_t)(anrows * bnrows);
-//           c[cElemIdx] += aelem * belem;
-//         }
-//       }
-//     }
-//   }
-// }
 void scalarMatrixMult(double scalar, double *m, int rows, int cols, int anrows, double *out) {
   int i,j;
   for (j = 0; j < cols; j++) {
@@ -116,10 +94,6 @@ void multiplyAddKronecker(
     int bncols,
     double *c)
 {
-  double *Yk = (double*)malloc(sizeof(double)*anrows*ancols*bnrows*bncols);
-#pragma omp parallel
-#pragma omp single
-  {
   for (int ja = 0; ja < ancols; ja++) {
     for (int ia = 0; ia < anrows; ia++) {
       double aelem = a[ia + ja * anrows];
@@ -127,7 +101,6 @@ void multiplyAddKronecker(
 #pragma omp task
       scalarMatrixMult(aelem, b, bnrows, bncols, anrows, c+cElemIdx);
     }
-  }
   }
 }
 
@@ -152,6 +125,9 @@ void multiplyTTMatVec(
   memset(y->data, 0, y->dimVecBegin[y->d] * sizeof(y->data[0]));
 
   // Now perform the matrix-vector multiplication in each dimension
+#pragma omp parallel
+#pragma omp single
+  {
   for (int d = 0; d < y->d; d++) {
     for (int m = 0; m < A->m[d]; m++) {
       double *ymBlockBegin = getTTVecBlock(y, d, m);
@@ -162,4 +138,5 @@ void multiplyTTMatVec(
       }
     }
   }
+}
 }

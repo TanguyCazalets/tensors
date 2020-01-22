@@ -6,7 +6,7 @@ ttmatvec: ttmatvec.cpp ttmat.cpp ttmat.h ttvec.cpp ttvec.h
 	g++ ${CPP_FLAGS} ttmatvec.cpp ttmat.cpp ttvec.cpp -lm -o ttmatvec	
 
 ttmatvec-opti: ttmatvec.cpp ttmat_opti_max.cpp ttmat.h ttvec.cpp ttvec.h
-	g++ ${CPP_FLAGS} ttmatvec.cpp ttmat_opti.cpp ttvec.cpp -lm -o ttmatvec_opti
+	g++ ${CPP_FLAGS} ttmatvec.cpp ttmat_opti_max.cpp ttvec.cpp -lm -o ttmatvec_opti
 
 ttmatvec-omp: ttmatvec.cpp ttmat_omp.cpp ttmat.h ttvec.cpp ttvec.h
 	g++ ${CPP_FLAGS} ttmatvec.cpp ttmat_omp.cpp ttvec.cpp -lm -o ttmatvec_omp
